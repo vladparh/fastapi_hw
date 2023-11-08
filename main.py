@@ -43,8 +43,9 @@ def root():
     return "Hello!"
 
 @app.post('/post')
-def simple_post():
-    return Timestamp(id=0, timestamp=0)
+def simple_post(timestamp: Timestamp):
+    post_db.append(timestamp)
+    return post_db[-1]
 
 @app.get('/dog')
 def get_dogs(kind: str):

@@ -1,6 +1,7 @@
 from enum import Enum
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+from time import gmtime
 
 app = FastAPI()
 
@@ -43,8 +44,8 @@ def root():
     return "Hello!"
 
 @app.post('/post')
-def simple_post(timestamp: Timestamp):
-    post_db.append(timestamp)
+def simple_post():
+    post_db.append(Timestamp(id=len(post_db),timestamp=gmtime().tm_hour))
     return post_db[-1]
 
 @app.get('/dog')

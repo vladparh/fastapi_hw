@@ -48,8 +48,8 @@ def get_post():
     post_db.append(Timestamp(id=len(post_db),timestamp=gmtime().tm_hour))
     return post_db[-1]
 
-@app.get('/dog',response_model=list[Dog],summary='Get Dogs')
-def get_dogs(kind: DogType):
+@app.get('/dog',summary='Get Dogs')
+def get_dogs(kind: DogType)->list[Dog]:
     dogs=[]
     for key, item in dogs_db.items():
         if item.kind == kind:

@@ -39,17 +39,17 @@ post_db = [
 ]
 
 
-@app.get('/')
+@app.get('/',response_model=str, summary='Root')
 def root():
     return "Hello!"
 
-@app.post('/post')
-def simple_post():
+@app.post('/post', response_model=Timestamp, summary='Get Post')
+def get_post():
     post_db.append(Timestamp(id=len(post_db),timestamp=gmtime().tm_hour))
     return post_db[-1]
 
-@app.get('/dog')
-def get_dogs(kind: str):
+@app.get('/dog',response_model=list[Dog],summary='Get Dogs')
+def get_dogs(kind: DogType):
     dogs=[]
     for key, item in dogs_db.items():
         if item.kind == kind:
@@ -66,17 +66,16 @@ def create_dog(dog: Dog):
         dogs_db[dog.pk] = dog
     return dog
 
-@app.get('/dog/{pk}')
+@app.get('/dog/{pk}', response_model=Dog, summary='Get Dog By Pk')
 def get_dog(pk: int):
     if pk not in dogs_db.keys():
         raise HTTPException(status_code=409, detail='The specified dog does not found')
     return dogs_db[pk]
 
-@app.patch('/dog/{pk}')
+@app.patch('/dog/{pk}', response_model=Dog, summary='Update Dog')
 def patch_dog(pk: int, dog: Dog):
     if pk not in dogs_db.keys():
         raise HTTPException(status_code=409, detail='The specified dog does not found')
     if pk in dogs_db.keys():
         dogs_db[pk] = dog
     return dog
-

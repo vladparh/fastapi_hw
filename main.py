@@ -2,6 +2,7 @@ from enum import Enum
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from time import gmtime
+from typing import List
 
 app = FastAPI()
 
@@ -48,8 +49,8 @@ def get_post():
     post_db.append(Timestamp(id=len(post_db),timestamp=gmtime().tm_hour))
     return post_db[-1]
 
-@app.get('/dog',summary='Get Dogs')
-def get_dogs(kind: DogType)->list[Dog]:
+@app.get('/dog', response_model=List[Dog], summary='Get Dogs')
+def get_dogs(kind: DogType):
     dogs=[]
     for key, item in dogs_db.items():
         if item.kind == kind:

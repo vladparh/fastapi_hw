@@ -1,4 +1,10 @@
-fastapi
-pydantic
-uvicorn
 annotated-types
+anyio
+fastapi
+idna
+pydantic
+pydantic_core
+sniffio
+starlette
+typing_extensions
+uvicorn
